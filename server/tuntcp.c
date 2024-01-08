@@ -99,6 +99,7 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 	}
 
 	write(conn->tun, packet, sizeof(packet));
+	free(packet);
 }
 
 uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp)
