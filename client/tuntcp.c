@@ -13,6 +13,7 @@
 #include <ctype.h>
 
 #define IFNAMSIZ 16
+#define PACKET_SIZE 1024
 
 void IPV4(size_t len_contents, uint8_t protocol, char *daddr, struct ipv4 *ip)
 {
@@ -77,21 +78,21 @@ void TCPConnection(int tun, char *addr, uint16_t port, struct tcp_conn *conn)
 
 void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 {
-	char data[1024];
+	char data[PACKET_SIZE];
 
 	struct tcp tcp;
 	TCP(conn->src_port, conn->dst_port, conn->seq, conn->ack, flags, &tcp);
 
 	struct ipv4 ip;
-	IPV4(sizeof(tcp) + 1024, PROTO_TCP, conn->dst_addr, &ip);
+	IPV4(sizeof(tcp) + PACKET_SIZE, PROTO_TCP, conn->dst_addr, &ip);
 
 	tcp.checksum = tcp_checksum(&ip, &tcp, data);
 
-	size_t size = sizeof(ip) + sizeof(tcp) + 1024;
+	size_t size = sizeof(ip) + sizeof(tcp) + PACKET_SIZE;
 	char packet[size];
 	memcpy(packet, &ip, sizeof(ip));
 	memcpy(packet + sizeof(ip), &tcp, sizeof(tcp));
-	memcpy(packet + sizeof(ip) + sizeof(tcp), &data, 1024);
+	memcpy(packet + sizeof(ip) + sizeof(tcp), &data, PACKET_SIZE);
 
 	write(conn->tun, packet, size);
 }
@@ -103,14 +104,14 @@ uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp, char *data)
 	ph->dst = ip->dst;
 	ph->proto = ip->proto;
 	ph->tcp_len = htons(ntohs(ip->len) - sizeof(*ip));
-	size_t size = sizeof(*ph) + sizeof(*tcp) + 1024;
+	size_t size = sizeof(*ph) + sizeof(*tcp) + PACKET_SIZE;
 
 	char sum_data[size];
 	memset(sum_data, 0, size);
 
 	to_bytes(ph, sum_data, sizeof(*ph));
 	to_bytes(tcp, sum_data + sizeof(*ph), sizeof(*tcp));
-	to_bytes(data, sum_data + sizeof(*ph) + sizeof(*tcp), 1024);
+	to_bytes(data, sum_data + sizeof(*ph) + sizeof(*tcp), PACKET_SIZE);
 
 	free(ph);
 
