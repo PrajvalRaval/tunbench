@@ -82,14 +82,15 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 	TCP(conn->src_port, conn->dst_port, conn->seq, conn->ack, flags, &tcp);
 
 	struct ipv4 ip;
-	IPV4(1024, PROTO_TCP, conn->dst_addr, &ip);
+	IPV4(sizeof(tcp) + sizeof("HELLO WORLD"), PROTO_TCP, conn->dst_addr, &ip);
 
 	tcp.checksum = tcp_checksum(&ip, &tcp);
 
-	size_t size = sizeof(ip) + sizeof(tcp);
+	size_t size = sizeof(ip) + sizeof(tcp) + sizeof("HELLO WORLD");
 	char packet[size];
 	memcpy(packet, &ip, sizeof(ip));
 	memcpy(packet + sizeof(ip), &tcp, sizeof(tcp));
+	memcpy(packet + sizeof(ip) + sizeof(tcp), "HELLO WORLD", sizeof("HELLO WORLD"));
 
 	write(conn->tun, packet, size);
 }
