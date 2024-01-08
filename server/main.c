@@ -26,6 +26,7 @@ int main(void)
 
 	// Sending an ACK packet
 	send_tcp_packet(&conn, TCP_ACK);
+	send_tcp_packet(&conn, TCP_SYN);
 	conn.state = TCP_ESTABLISHED;
 
 	// Sending a RST packet
