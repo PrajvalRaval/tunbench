@@ -95,7 +95,7 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 
 	if (flags == TCP_PSH)
 	{
-		strcpy(packet + sizeof(ip) + sizeof(tcp), DATA);
+		memcpy(packet + sizeof(ip) + sizeof(tcp), DATA, sizeof(DATA));
 	}
 
 	write(conn->tun, packet, sizeof(packet));
