@@ -101,7 +101,7 @@ uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp)
 	ph->dst = ip->dst;
 	ph->proto = ip->proto;
 	ph->tcp_len = htons(ntohs(ip->len) - sizeof(*ip));
-	size_t size = 1024;
+	size_t size = sizeof(*ph) + sizeof(*tcp) + 1024;
 
 	char sum_data[size];
 	memset(sum_data, 0, size);
