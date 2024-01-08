@@ -98,7 +98,7 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 		memcpy(packet + sizeof(ip) + sizeof(tcp), &DATA, sizeof(DATA));
 	}
 
-	write(conn->tun, packet, sizeof(packet));
+	write(conn->tun, packet, 1024);
 }
 
 uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp)
