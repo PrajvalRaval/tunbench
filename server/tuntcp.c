@@ -14,6 +14,7 @@
 
 #define IFNAMSIZ 16
 #define DATA "Hello, TCP Server!"
+#define PACKET_SIZE 1024
 
 void IPV4(size_t len_contents, uint8_t protocol, char *daddr, struct ipv4 *ip)
 {
@@ -88,7 +89,7 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 	tcp.checksum = tcp_checksum(&ip, &tcp);
 
 	// size_t size = sizeof(ip) + sizeof(tcp);
-	char packet[1024];
+	void* packet = malloc(PACKET_SIZE);
 
 	memcpy(packet, &ip, sizeof(ip));
 	memcpy(packet + sizeof(ip), &tcp, sizeof(tcp));
