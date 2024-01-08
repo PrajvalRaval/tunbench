@@ -87,7 +87,7 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 
 	tcp.checksum = tcp_checksum(&ip, &tcp);
 
-	size_t size = 1024;
+	// size_t size = 1024;
 	char *packet = malloc(1024);
 
 	memcpy(packet, &ip, sizeof(ip));
@@ -98,7 +98,7 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 		memcpy(packet + sizeof(ip) + sizeof(tcp),  &DATA, sizeof(DATA));
 	}
 
-	write(conn->tun, packet, size);
+	write(conn->tun, packet, sizeof(packet));
 	free(packet);
 }
 
