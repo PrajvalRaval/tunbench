@@ -11,6 +11,7 @@
 #include "tuntcp.h"
 #include <time.h>
 #include <ctype.h>
+#include <limits.h>
 
 #define IFNAMSIZ 16
 typedef unsigned char byte;

@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #define PROTO_ICMP 1
 #define PROTO_TCP 6

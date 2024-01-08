@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <ctype.h>
+#include <limits.h>
 #include "tuntcp.h"
 
 int main(void)
