@@ -90,8 +90,6 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 	// size_t size = sizeof(ip) + sizeof(tcp);
 	char packet[1024];
 
-	memset(packet, 'A', sizeof(packet));
-
 	memcpy(packet, &ip, sizeof(ip));
 	memcpy(packet + sizeof(ip), &tcp, sizeof(tcp));
 

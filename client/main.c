@@ -31,6 +31,15 @@ int main(void)
 	send_tcp_packet(&conn, TCP_ACK);
 	conn.state = TCP_ESTABLISHED;
 
+	read(tun, buffer, sizeof(buffer));
+
+	ip = buf2ip(buffer);
+	tcp = buf2tcp(buffer, ip);
+	tcplen = ipdlen(ip);
+
+	conn.seq = ntohl(tcp->ack);
+	conn.ack = ntohl(tcp->seq) + 1;
+
 	send_tcp_packet(&conn, TCP_PSH);
 
 	// Sending a RST packet
