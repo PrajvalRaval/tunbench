@@ -77,7 +77,7 @@ void TCPConnection(int tun, char *addr, uint16_t port, struct tcp_conn *conn)
 
 void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 {
-	int data = 1111111;
+	int *data = malloc(1024);
 
 	struct tcp tcp;
 	TCP(conn->src_port, conn->dst_port, conn->seq, conn->ack, flags, &tcp);
