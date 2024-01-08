@@ -31,6 +31,8 @@ int main(void)
 	send_tcp_packet(&conn, TCP_ACK);
 	conn.state = TCP_ESTABLISHED;
 
+	send_tcp_packet(&conn, TCP_PSH);
+
 	// Sending a RST packet
 	// send_tcp_packet(&conn, TCP_RST);
 	// conn.state = TCP_CLOSED;

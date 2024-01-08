@@ -13,6 +13,7 @@
 #include <ctype.h>
 
 #define IFNAMSIZ 16
+#define DATA "Hello, TCP Server!"
 
 void IPV4(size_t len_contents, uint8_t protocol, char *daddr, struct ipv4 *ip)
 {
@@ -90,6 +91,10 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 	char packet[size];
 	memcpy(packet, &ip, sizeof(ip));
 	memcpy(packet + sizeof(ip), &tcp, sizeof(tcp));
+
+	if(flags == TCP_PSH){
+		strcpy(packet + sizeof(ip) + sizeof(tcp), DATA);
+	}
 
 	write(conn->tun, packet, size);
 }
