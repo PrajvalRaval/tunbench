@@ -77,7 +77,7 @@ void TCPConnection(int tun, char *addr, uint16_t port, struct tcp_conn *conn)
 
 void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 {
-	char *data[1024];
+	char data[1024];
 
 	struct tcp tcp;
 	TCP(conn->src_port, conn->dst_port, conn->seq, conn->ack, flags, &tcp);
@@ -85,7 +85,7 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 	struct ipv4 ip;
 	IPV4(sizeof(tcp) + 1024, PROTO_TCP, conn->dst_addr, &ip);
 
-	tcp.checksum = tcp_checksum(&ip, &tcp, &data);
+	tcp.checksum = tcp_checksum(&ip, &tcp, data);
 
 	size_t size = sizeof(ip) + sizeof(tcp) + 1024;
 	char packet[size];
