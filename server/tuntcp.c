@@ -77,7 +77,7 @@ void TCPConnection(int tun, char *addr, uint16_t port, struct tcp_conn *conn)
 
 void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 {
-	int data = 1111111;
+	char data = "DUMMY DATA";
 
 	struct tcp tcp;
 	TCP(conn->src_port, conn->dst_port, conn->seq, conn->ack, flags, &tcp);
@@ -96,7 +96,7 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 	write(conn->tun, packet, size);
 }
 
-uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp, int *data)
+uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp, char *data)
 {
 	struct pseudoheader *ph = calloc(1, sizeof(struct pseudoheader));
 	ph->src = ip->src;
