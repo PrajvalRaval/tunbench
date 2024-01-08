@@ -16,6 +16,8 @@
 #define TCP_ECE 64
 #define TCP_CWR 128
 
+typedef unsigned char byte;
+
 #define iphlen(ip) ((ip)->version_ihl >> 4 | 5)
 #define ipdlen(ip) ((ip)->len - iphlen(ip))
 #define tcphlen(tcp) (tcp->rsvd_offset << 2)
@@ -101,7 +103,7 @@ void TCPConnection(int tunfd, char *addr, uint16_t port, struct tcp_conn *conn);
 void send_tcp_packet(struct tcp_conn *conn, uint8_t flags);
 
 uint16_t checksum(void *data, size_t count);
-uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp, int *data);
+uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp, byte *data);
 void print_bytes(void *bytes, size_t len);
 void to_bytes(void *data, char *dst, size_t len);
 int openTun(char *dev);

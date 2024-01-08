@@ -13,6 +13,7 @@
 #include <ctype.h>
 
 #define IFNAMSIZ 16
+typedef unsigned char byte;
 
 void IPV4(size_t len_contents, uint8_t protocol, char *daddr, struct ipv4 *ip)
 {
@@ -77,7 +78,6 @@ void TCPConnection(int tun, char *addr, uint16_t port, struct tcp_conn *conn)
 
 void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 {
-	typedef unsigned char byte;
 	byte data = 1024;
 	// int *testarr = malloc(1024);
 
@@ -100,7 +100,7 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 	write(conn->tun, packet, size);
 }
 
-uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp, int *data)
+uint16_t tcp_checksum(struct ipv4 *ip, struct tcp *tcp, byte *data)
 {
 	struct pseudoheader *ph = calloc(1, sizeof(struct pseudoheader));
 	ph->src = ip->src;
