@@ -8,7 +8,7 @@
 #include <sys/ioctl.h>
 #include <linux/if.h>
 #include <linux/if_tun.h>
-#include "common/tuntcp.h"
+#include "tuntcp.h"
 #include <time.h>
 #include <ctype.h>
 
