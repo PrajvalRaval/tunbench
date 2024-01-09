@@ -12,7 +12,7 @@ int main(void)
 
 	int tun = openTun("tun1");
 	struct tcp_conn conn;
-	TCPConnection(tun, "192.0.2.2", 80, &conn);
+	TCPConnection(tun, "192.0.3.2", "192.0.2.2", 80, &conn);
 	char buffer[1024] = {0};
 
 	read(tun, buffer, sizeof(buffer));
