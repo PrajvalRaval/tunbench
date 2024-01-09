@@ -15,7 +15,7 @@
 #define IFNAMSIZ 16
 #define PACKET_SIZE 1024
 
-void IPV4(size_t len_contents, uint8_t protocol,char *saddr, char *daddr, struct ipv4 *ip)
+void IPV4(size_t len_contents, uint8_t protocol, char *saddr, char *daddr, struct ipv4 *ip)
 {
 
 	ip->version_ihl = 4 << 4 | 5;
@@ -66,7 +66,7 @@ void TCPConnection(int tun, char *saddr, char *daddr, uint16_t port, struct tcp_
 	conn->tun = tun;
 	conn->state = TCP_CLOSED;
 
-	inet_pton(AF_INET, saddr, &(conn->src_addr));
+	conn->src_addr = saddr;
 	conn->src_port = rand() % INT16_MAX;
 
 	conn->dst_addr = daddr;
